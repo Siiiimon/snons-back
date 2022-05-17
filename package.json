@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node .",
+    "dev": "nodemon .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -13,6 +14,10 @@
     "cors": "^2.8.5",
     "cuid": "^2.1.8",
     "express": "^4.18.1",
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.6.7",
+    "nodemon": "^2.0.16"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.1"
   }
 }

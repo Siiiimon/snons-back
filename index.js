@@ -28,14 +28,15 @@ app.get('/auth/redirect', async (req, res) => {
 	params.append("code", req.query.code)
 	//params.append("redirect_uri", "https%3A%2F%2Fsnons-back-production.up.railway.app%2Faccess%2Fredirect%2F"+id)
 	params.append("redirect_uri", "https%3A%2F%2Fsnons-back-production.up.railway.app%2Faccess%2Fredirect")
-	console.log("request parameters: ", params)
-	console.log("request headers: ", h)
-	const response = await fetch("https://httpbin.org/post?" + params, {
+	//console.log("request parameters: ", params)
+	//console.log("request headers: ", h)
+	const response = await fetch("https://api.sonos.com/login/v3/oauth/access?" + params, {
 		method: 'POST',
 		headers: h,
 	})
 	const data = await response.json()
-	console.log(data)
+	console.log("response: ", response)
+	console.log("\n\ndata: ", data)
 	res.send("back so soon?")
 })
 

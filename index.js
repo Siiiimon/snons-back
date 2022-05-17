@@ -13,7 +13,7 @@ app.get('/auth/setup', (req, res) => {
 	res.send(process.env.CLIENT_KEY)
 })
 
-app.get('/auth/redirect', (req, res) => {
+app.get('/auth/redirect', async (req, res) => {
 	console.log(`got hit with ${req.query.code} from state: ${req.query.state}`)
 	//const id = cuid()
 	//db[id] = true
@@ -30,14 +30,12 @@ app.get('/auth/redirect', (req, res) => {
 	params.append("redirect_uri", "https%3A%2F%2Fsnons-back-production.up.railway.app%2Faccess%2Fredirect")
 	console.log("request parameters: ", params)
 	console.log("request headers: ", h)
-	fetch("https://api.sonos.com/login/v3/oauth/access", {
+	const response = await fetch("https://httpbin.org/post?" + params, {
 		method: 'POST',
-		body: params,
 		headers: h,
-	}).then(res => {
-		console.log("full response: ", res)
-		res.json()
-	}).then(data => console.log("fetch got response: ", data))
+	})
+	const data = await response.json()
+	console.log(data)
 	res.send("back so soon?")
 })
 

@@ -5,16 +5,7 @@ const fetch = require('node-fetch')
 require('dotenv').config()
 const port = 8080
 
-const getHouseholds = async (accessToken) => {
-	const h = {
-		'Content-Type': 'application/json',
-		'Authorization': 'Bearer ' + accessToken
-	}
-	const resp = await fetch("https://api.ws.sonos.com/control/api/v1/households", {headers: h})
-	console.log("households response: ", resp)
-	const data = await resp.json()
-	console.log("households data: ", data)
-}
+let accessToken
 
 app.use(cors())
 
@@ -44,8 +35,16 @@ app.get('/auth/redirect', async (req, res) => {
 			headers: h,
 		})
 		const data = await response.json()
-		await getHouseholds(data.access_token)
+		accessToken = data.access_token
 		res.send("back so soon?")
+	}
+})
+
+app.get('/access', (req, res) => {
+	if (req.headers.authorization == process.env.SNONS_PW) {
+		res.send(accessToken)
+	} else {
+		res.status(403).send("Unauthorized.")
 	}
 })
 

@@ -17,20 +17,23 @@ app.get('/auth/redirect', (req, res) => {
 	console.log(`got hit with ${req.query.code} from state: ${req.query.state}`)
 	//const id = cuid()
 	//db[id] = true
-	
+
 	const auth = Buffer.from(process.env.CLIENT_KEY + ":" + process.env.CLIENT_SECRET).toString('base64')
+	const h = {
+		'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+		'Authorization': 'Basic ' + auth
+	}
 	const params = new URLSearchParams()
 	params.append("grant_type", "authorization_code")
 	params.append("code", req.query.code)
 	//params.append("redirect_uri", "https%3A%2F%2Fsnons-back-production.up.railway.app%2Faccess%2Fredirect%2F"+id)
 	params.append("redirect_uri", "https%3A%2F%2Fsnons-back-production.up.railway.app%2Faccess%2Fredirect")
+	console.log("request parameters: ", params)
+	console.log("request headers: ", h)
 	fetch("https://api.sonos.com/login/v3/oauth/access", {
 		method: 'POST',
 		body: params,
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-			'Authorization': 'Basic ' + auth
-		}
+		headers: h,
 	}).then(res => {
 		console.log("full response: ", res)
 		res.json()

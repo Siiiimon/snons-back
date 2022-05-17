@@ -31,7 +31,10 @@ app.get('/auth/redirect', (req, res) => {
 			'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
 			'Authorization': 'Basic ' + auth
 		}
-	}).then(res => res.json()).then(data => console.log("fetch got response: ", data))
+	}).then(res => {
+		console.log("full response: ", res)
+		res.json()
+	}).then(data => console.log("fetch got response: ", data))
 	res.send("back so soon?")
 })
 
